@@ -63,6 +63,3 @@ Did NOT run the install script:
 ```
 python3 liveTargetsFinder.py --target-list victim_domains.txt --massdns-path massdns/bin/massdns --masscan-path masscan/bin/masscan 
 ```
-
-
-![ScreenShot](https://raw.githubusercontent.com/allyomalley/p12Cracker/master/image_output.png)
