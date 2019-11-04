@@ -1,4 +1,4 @@
-# LiveTargetsFinder
+# LiveTargetsFinder (Coming soon)
 Generates lists of live hosts and URLs for targeting, automating the usage of Massdns and Masscan to filter out unreachable hosts
 
 Given an input file of domains names, this script will automate the usage of massDNS to filter out unresolvable hosts, and then pass the results on to masscan to confirm that the hosts are reachable and on which ports. The script will then generate a list of full URLs to be used for further targeting (passing into tools like gobuster or dirsearch, or making HTTP requests), a list of reachable domain names, and a list of reachable IP addresses.
