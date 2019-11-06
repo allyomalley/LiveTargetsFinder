@@ -1,2 +1,4 @@
 colorama
 pathlib
+python-libnmap
+sqlite3
