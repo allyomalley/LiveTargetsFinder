@@ -34,6 +34,7 @@ chmod +x install_deps.sh
 If you do not already have MassDNS and Masscan installed, and would prefer to install them yourself, see the documentation for instructions:
 
 [MassDNS](https://github.com/blechschmidt/massdns).
+
 [Masscan](https://github.com/robertdavidgraham/masscan).
 
 I have only tested this script on macOS and Linux - the python script itself should work on a Windows machine, though I believe the installation for MassDNS and Masscan will differ.
@@ -45,18 +46,18 @@ python3 liveTargetsFinder.py [domainList] [options]
 ```
 
 | Flag | Description | Default | Required |
-| --- | --- | --- |
-| `--target-list` | Input file containing list of domains, e.g google.com | | Yes |
-| `--massdns-path` | Path to the MassDNS executable, if not installed with this repo | *./massdns/bin/massdns* | No |
-| `--masscan-path` | Path to the Masscan executable, if not installed with this repo | *./masscan/bin/masscan* | No |
-| `--nmap` | Run an nmap version detection scan on the gathered live hosts, storing results in a SQLite database  | *Disabled* | No |
-| `--db-path` | If using the --nmap option, supply the path to the database you would like to append to (will be created if does not exist) | *inputFilename.sqlite3* | No |
+| --------------- | --- | --- | :--- |
+| &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; `--target-list` &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; | Input file containing list of domains, e.g google.com | | Yes |
+| &nbsp; `--massdns-path` &nbsp; | Path to the MassDNS executable, if non-default | *./massdns/bin/massdns* | No |
+| &nbsp; `--masscan-path` &nbsp; | Path to the Masscan executable, if non-default | *./masscan/bin/masscan* | No |
+| &nbsp; `--nmap` &nbsp; | Run an nmap version detection scan on the gathered live hosts | *Disabled* | No |
+| &nbsp; `--db-path` &nbsp; | If using the --nmap option, supply the path to the database you would like to append to (will be created if does not exist) | *inputFilename.sqlite3* | No |
 
 
 * Note that the Masscan and MassDNS settings are hardcoded inside liveTargetsFinder.py. Feel free to edit them (lines 87 + 97).
 * Since this tool was designed with very large lists in mind, I tweaked many of the settings to try to balance speed, accuracy, and network constraints - these can all be adjusted to suit your needs and bandwith.
 * Default settings for Masscan **only scans ports 80 and 443**. 
-  - *-s*, (*--hashmap-size*) in particular was chosen for performance reasons - you will likely be able to increase this.
+  - ```-s```, (```--hashmap-size```) in particular was chosen for performance reasons - you will likely be able to increase this.
   - Full MassDNS arguments:
     - ```-c 25 -o J -r ./massdns/lists/resolvers.txt -s 100 -w  massdnsOutput -t A targetHosts```
     - [Documentation](https://github.com/blechschmidt/massdns)
