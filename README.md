@@ -1,5 +1,5 @@
 
-# LiveTargetsFinder (Coming soon)
+# LiveTargetsFinder
 Generates lists of live hosts and URLs for targeting, automating the usage of Massdns, Masscan and nmap to filter out unreachable hosts
 
 Given an input file of domain names, this script will automate the usage of MassDNS to filter out unresolvable hosts, and then pass the results on to Masscan to confirm that the hosts are reachable and on which ports. The script will then generate a list of full URLs to be used for further targeting (passing into tools like gobuster or dirsearch, or making HTTP requests), a list of reachable domain names, and a list of reachable IP addresses. As an optional last step, you can run an nmap version scan on this reduced host list, verifying that the earlier reachable hosts are up, and gathering service information from their open ports.
@@ -33,9 +33,9 @@ chmod +x install_deps.sh
 
 If you do not already have MassDNS and Masscan installed, and would prefer to install them yourself, see the documentation for instructions:
 
-[MassDNS](https://github.com/blechschmidt/massdns).
+[MassDNS](https://github.com/blechschmidt/massdns)
 
-[Masscan](https://github.com/robertdavidgraham/masscan).
+[Masscan](https://github.com/robertdavidgraham/masscan)
 
 I have only tested this script on macOS and Linux - the python script itself should work on a Windows machine, though I believe the installation for MassDNS and Masscan will differ.
 
@@ -51,7 +51,7 @@ python3 liveTargetsFinder.py [domainList] [options]
 | &nbsp; `--massdns-path` &nbsp; | Path to the MassDNS executable, if non-default | *./massdns/bin/massdns* | No |
 | &nbsp; `--masscan-path` &nbsp; | Path to the Masscan executable, if non-default | *./masscan/bin/masscan* | No |
 | &nbsp; `--nmap` &nbsp; | Run an nmap version detection scan on the gathered live hosts | *Disabled* | No |
-| &nbsp; `--db-path` &nbsp; | If using the --nmap option, supply the path to the database you would like to append to (will be created if does not exist) | *inputFilename.sqlite3* | No |
+| &nbsp; `--db-path` &nbsp; | If using the --nmap option, supply the path to the database you would like to append to (will be created if does not exist) | *output/liveTargetsFinder.sqlite3* | No |
 
 
 * Note that the Masscan and MassDNS settings are hardcoded inside liveTargetsFinder.py. Feel free to edit them (lines 87 + 97).
@@ -63,7 +63,7 @@ python3 liveTargetsFinder.py [domainList] [options]
     - [Documentation](https://github.com/blechschmidt/massdns)
 * Another setting of note is the ```--max-rate``` argument for Masscan - you will likely want to adjust this.
   - Full Masscan arguments:
-    - ```-iL  ipFile -oD  masscanOutput --open-only --max-rate 10000 -p80,443 --max-retries 10```
+    - ```-iL  ipFile -oD  masscanOutput --open-only --max-rate 5000 -p80,443 --max-retries 10```
     - [Documentation](https://github.com/robertdavidgraham/masscan)
 * Default nmap settings **only scans ports 80 and 443**, with timing -T4 and a few NSE scripts.
   - Full nmap arguments:
@@ -101,11 +101,11 @@ Input: victimDomains.txt
 
 | File | Description | Examples |
 | --- | --- | --- |
-| victimDomains_targetUrls.txt | List of reachable, live URLs | https://github.com, http://github.com |
-| victimDomains_domains_alive.txt | List of live domain names | github.com, google.com |
-| victimDomains_ips_alive.txt | List of live IP addresses | 10.1.0.200, 52.3.1.166 |
+| output/victimDomains_targetUrls.txt | List of reachable, live URLs | https://github.com, http://github.com |
+| output/victimDomains_domains_alive.txt | List of live domain names | github.com, google.com |
+| output/victimDomains_ips_alive.txt | List of live IP addresses | 10.1.0.200, 52.3.1.166 |
 | *Supplied or default DB Path* | SQLite database storing live hosts and information about their services running | |
-| victimDomains_massdns.txt | The raw output from MassDNS, in ndjson format | |
-| victimDomains_masscan.txt | The raw output from Masscan, in ndjson format | | 
-| victimDomains_nmap.txt | The raw output from nmap, in XML format | | 
+| output/victimDomains_massdns.txt | The raw output from MassDNS, in ndjson format | |
+| output/victimDomains_masscan.txt | The raw output from Masscan, in ndjson format | | 
+| output/victimDomains_nmap.txt | The raw output from nmap, in XML format | | 
 
