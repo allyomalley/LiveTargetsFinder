@@ -67,7 +67,6 @@ def writeMassDNSOutput(domain_map, domainOutput, ipOutput):
 
 def writeMasscanOutput(urls, outputFile):
     urlFile = open(outputFile, 'w')
-
     for targetUrl in urls:
         urlFile.write(targetUrl)
         urlFile.write('\n')
@@ -123,7 +122,7 @@ def writeToDatabase(data, dbOutputPath):
             continue
         else:
             try:
-                insertCursor.execute(insertSql, (info["domain"], info["port"], info["banner"], info["http-devframework"], info["http-headers"], info["http-server-header"]))
+                insertCursor.execute(insertSql, (info["domain"], info["port"], info["banner"], info["http-devframework"], info["X-Powered-By"], info["http-server-header"]))
             except Exception as e:
                 Print("DB Exception: " + e)
 
@@ -141,7 +140,7 @@ def parseNmapOutput(nmapOutput, hosts):
     nmapLiveHosts = []
     report = NmapParser.parse_fromfile(nmapOutput)
     for host in report.hosts:
-        hostRow = {"domain": "", "port": "", "banner": None, "http-devframework": None, "http-headers": None, "http-server-header": None}
+        hostRow = {"domain": "", "port": "", "banner": None, "http-devframework": None, "X-Powered-By": None, "http-server-header": None}
         ip = host.address
         if len(host.hostnames) != 0:
             hostname = host.hostnames[0]
@@ -167,7 +166,7 @@ def parseNmapOutput(nmapOutput, hosts):
                                 elif script["id"] == "http-server-header":
                                     hostRow[script["id"]] = script["output"]
                                 elif script["id"] == "http-headers" and "X-Powered-By" in script["output"]:
-                                    hostRow[script["X-Powered-By"]] = script["output"]
+                                    hostRow["X-Powered-By"] = script["output"]
                         if (s.banner):
                             hostRow["banner"] = s.banner
 
@@ -180,6 +179,7 @@ def performVersionScan(nmapInput, nmapOutput, dbOutputPath):
     print(Fore.BLUE + "\n - Starting nmap scan...")
     scanner = NmapProcess(targets=nmapInput, options="--script http-server-header.nse,http-devframework.nse,http-headers -sV -T4 -p80,443 -oX " + nmapOutput, safe_mode=False)
     scanner.run()
+    print(Fore.BLUE + "\n - Finished nmap scan!")
     data = parseNmapOutput(nmapOutput, nmapInput)
     writeToDatabase(data, dbOutputPath)
 
@@ -270,7 +270,6 @@ if __name__ == "__main__":
     )
 
     args = parser.parse_args()
-    print(args)
     if args.target_list:
         targetHosts = args.target_list
         massdnsPath = ""
