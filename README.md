@@ -89,7 +89,7 @@ Perform an nmap scan and write to/append to the default DB path (liveTargetsFind
 python3 liveTargetsFinder.py --target-list victim_domains.txt --nmap
 ```
 
-Perform an nmap scan and write to/append to the specificed database
+Perform an nmap scan and write to/append to the specified database
 
 ```
 python3 liveTargetsFinder.py --target-list victim_domains.txt --nmap --db-path serviceinfo_victim.sqlite3
