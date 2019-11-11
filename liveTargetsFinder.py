@@ -124,7 +124,8 @@ def writeToDatabase(data, dbOutputPath):
             try:
                 insertCursor.execute(insertSql, (info["domain"], info["port"], info["banner"], info["http-devframework"], info["X-Powered-By"], info["http-server-header"]))
             except Exception as e:
-                Print("DB Exception: " + e)
+                print("DB Exception:")
+                print(e)
 
     con.commit()
 
@@ -165,8 +166,10 @@ def parseNmapOutput(nmapOutput, hosts):
                                     hostRow[script["id"]] = script["output"]
                                 elif script["id"] == "http-server-header":
                                     hostRow[script["id"]] = script["output"]
-                                elif script["id"] == "http-headers" and "X-Powered-By" in script["output"]:
-                                    hostRow["X-Powered-By"] = script["output"]
+                                elif script["id"] == "http-headers":
+                                    header = re.search('X-Powered-By:.*', script["output"], re.IGNORECASE)
+                                    if (header):
+                                        hostRow["X-Powered-By"] = script["output"]
                         if (s.banner):
                             hostRow["banner"] = s.banner
 
