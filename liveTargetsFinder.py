@@ -170,7 +170,7 @@ def parseNmapOutput(nmapOutput, hosts):
                                 elif script["id"] == "http-headers":
                                     header = re.search('X-Powered-By:.*', script["output"], re.IGNORECASE)
                                     if (header):
-                                        hostRow["X-Powered-By"] = script["output"]
+                                        hostRow["X-Powered-By"] = header.group(0)
                         if (s.banner):
                             hostRow["banner"] = s.banner
 
