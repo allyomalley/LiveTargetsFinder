@@ -7,6 +7,7 @@ from colorama import Fore
 from libnmap.process import NmapProcess
 from libnmap.parser import NmapParser, NmapParserException
 import sqlite3
+import re
 
 def parseMassDNS(filepath):
     domain_map = {}
