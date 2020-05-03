@@ -1,3 +1,6 @@
+#!/usr/bin/env python3
+
+import os
 import json
 import argparse
 import subprocess
@@ -208,7 +211,8 @@ def writeFinalOutput(domainOutput, ipOutput, targetUrlsOutput, dbOutput, nmapOut
 
 
 def main(targetHosts, massdnsPath, masscanPath, resolvers, useNmap, dbOutput):
-
+        if not os.path.exists('output'):
+            os.makedirs('output')
         outputPrefix = targetHosts.rsplit('/',1)[-1]
         outputPrefix = outputPrefix.replace(".txt", "")
 
