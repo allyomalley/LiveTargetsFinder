@@ -212,7 +212,9 @@ def writeFinalOutput(domainOutput, ipOutput, targetUrlsOutput, dbOutput, nmapOut
 
 
 def main(targetHosts, massdnsPath, masscanPath, resolvers, useNmap, dbOutput):
-
+        if not os.path.exists('output'):
+            os.makedirs('output')
+            
         outputPrefix = targetHosts.rsplit('/',1)[-1]
         outputPrefix = outputPrefix.replace(".txt", "")
         os.mkdir('output', 0755 );
