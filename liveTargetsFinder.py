@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 
+import os, sys
+
 import json
 import argparse
 import subprocess
@@ -213,6 +215,8 @@ def main(targetHosts, massdnsPath, masscanPath, resolvers, useNmap, dbOutput):
 
         outputPrefix = targetHosts.rsplit('/',1)[-1]
         outputPrefix = outputPrefix.replace(".txt", "")
+        os.mkdir('output', 0755 );
+
 
         # MassDNS Parsed output files
         domainOutput = "output/" + outputPrefix + "_domains_alive.txt"
