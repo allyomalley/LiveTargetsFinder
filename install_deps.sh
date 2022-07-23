@@ -7,6 +7,7 @@ echo "Cloning masscan."
 git clone https://github.com/robertdavidgraham/masscan.git
 
 cd massdns
+git checkout 65331fb528755621650a0fbacff12102cfdcdde9
 if [ "$(uname)" == "Darwin" ]; then
 	make nolinux
 else
